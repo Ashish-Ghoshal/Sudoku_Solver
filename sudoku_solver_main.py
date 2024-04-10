@@ -4,7 +4,7 @@
 
 import numpy as np
 import time
-from sudoku_solver_helper_functions import *
+from Sudoku_solving_methods import *
 
 
 
@@ -109,7 +109,7 @@ def brute_force(s, verbose):
 #############
 def solve(original_puzzle, verbose):
 
-    report = [0]*2
+    report = [0]*10
 
     puzzle = pencil_in_numbers(original_puzzle)
     solved = n_solved(puzzle)
@@ -130,7 +130,45 @@ def solve(original_puzzle, verbose):
         report[0] += r0
         r_step += r0
         
+        if all_at_once or r_step == 0:
+            r1 = hidden_single(puzzle)
+            report[1] += r1
+            r_step += r1
 
+        if all_at_once or r_step == 0:
+            r2 = csp(puzzle)
+            report[2] += r2
+            r_step += r2
+
+        if all_at_once or r_step == 0:
+            r3 = intersect(puzzle)
+            report[3] += r3
+            r_step += r3
+
+        if all_at_once or r_step == 0:
+            r4 = x_wing(puzzle)
+            report[4] += r4
+            r_step += r4
+
+        if all_at_once or r_step == 0:
+            r5 = coloring(puzzle)
+            report[5] += r5
+            r_step += r5
+
+        if all_at_once or r_step == 0:
+            r6 = y_wing(puzzle)
+            report[6] += r6
+            r_step += r6
+
+        if all_at_once or r_step == 0:
+            r7 = nice_chains(puzzle)
+            report[7] += r7
+            r_step += r7
+            
+        if all_at_once or r_step == 0:
+            r8 = medusa_3d(puzzle)
+            report[8] += r8
+            r_step += r8
 
         # check state
         solved = n_solved(puzzle)
@@ -148,12 +186,19 @@ def solve(original_puzzle, verbose):
     if to_remove > 0:
         for_brute = n_to_remove(puzzle)
         puzzle = brute_force(puzzle, verbose)
-        report[1] += for_brute
+        report[9] += for_brute
 
     # Report:
     legend = [
             'Simple elimination',
-
+            'Hidden single',
+            'CSP',
+            'Intersection',
+            'X-Wing',
+            'Coloring',
+            'Y-Wing',
+            'Nice chains',
+            '3D Medusa',
             'Backtracking']
     if verbose:
         print ("Methods used:")
