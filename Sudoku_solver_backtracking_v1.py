@@ -1,6 +1,6 @@
 #Sudoku solver with back tracking
 
-#NO OOPS CONCEPT HERE
+
 
 import numpy as np
 import sys
@@ -50,8 +50,6 @@ def dict_initialize(grid):
             col_dict[j].discard(val)
             squ_dict[squ_index(i,j)].discard(val)
             
-           
-
 
 def possible_val(row,col):
     if grid[row][col] ==0:
